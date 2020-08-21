@@ -2,9 +2,11 @@ import React from "react";
 
 class Form extends React.Component {
   state = {
+    id: 0,
     balance: 0,
     value: "",
-    amount: 0
+    amount: 0,
+    expenseArray: []
   };
 
   changeValue = (event) => {
@@ -15,7 +17,28 @@ class Form extends React.Component {
 
   saveBalance = (event) => {
     event.preventDefault();
+    this.setState({
+      balance: this.state.balance
+    });
   };
+
+  saveExpense = (event) => {
+    event.preventDefault();
+    this.setState({
+      id: this.state.id + 1,
+      expenseArray: [
+        ...this.state.expenseArray,
+        {
+          id: this.state.id,
+          value: this.state.value,
+          amount: this.state.amount
+        }
+      ],
+      value: "",
+      amount: ""
+    });
+  };
+
   render() {
     console.log(this.state);
     return (
@@ -32,7 +55,7 @@ class Form extends React.Component {
           ></input>
           <button type="submit">Click me</button>
         </form>
-        <form>
+        <form onSubmit={this.saveExpense}>
           <input
             type="number"
             min="0"

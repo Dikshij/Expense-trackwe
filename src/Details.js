@@ -10,7 +10,7 @@ class Details extends React.Component {
             <th>id</th>
             <th>Amount</th>
             <th>Name</th>
-            <th>Balance</th>
+            {/* <th>Balance</th> */}
             <th>Credit/Debit</th>
           </thead>
           <tbody>
@@ -20,7 +20,7 @@ class Details extends React.Component {
                   <td>{expense.id}</td>
                   <td>{expense.amount}</td>
                   <td>{expense.value}</td>
-                  <td>{expense.balance}</td>
+                  {/* <td>{expense.balance}</td> */}
                   <td>{expense.type}</td>
                   <td>
                     <button
@@ -28,13 +28,16 @@ class Details extends React.Component {
                     >
                       Delete
                     </button>
-                    <button>Edit</button>
+                    <button onClick={() => this.props.editExpense(expense.id)}>
+                      Edit
+                    </button>
                   </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
+        <h2>{this.props.balance}</h2>
       </div>
     );
   }

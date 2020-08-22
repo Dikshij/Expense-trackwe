@@ -8,7 +8,10 @@ class Form extends React.Component {
     value: "",
     amount: 0,
     expenseArray: [],
-    type: ""
+    type: "",
+    isEditing: false,
+    editId: "",
+    previousAmount: ""
   };
 
   changeValue = (event) => {
@@ -36,29 +39,31 @@ class Form extends React.Component {
             id: this.state.id + 1,
             value: this.state.value,
             amount: this.state.amount,
-            type: this.state.type,
-            balance:
-              parseFloat(this.state.balance) + parseFloat(this.state.amount)
+            type: this.state.type
+            // balance:
+            //   parseFloat(this.state.balance) + parseFloat(this.state.amount)
           }
         ],
 
         value: "",
         amount: "",
-        type: ""
+        type: "",
+        isEditing: false,
+        editId: ""
       });
     } else {
       this.setState({
         id: this.state.id + 1,
-        balance: parseFloat(this.state.balance) + parseFloat(this.state.amount),
+        balance: parseFloat(this.state.balance) - parseFloat(this.state.amount),
         expenseArray: [
           ...this.state.expenseArray,
           {
             id: this.state.id + 1,
             value: this.state.value,
             amount: this.state.amount,
-            type: this.state.type,
-            balance:
-              parseFloat(this.state.balance) - parseFloat(this.state.amount)
+            type: this.state.type
+            // balance:
+            //   parseFloat(this.state.balance) - parseFloat(this.state.amount)
           }
         ],
         value: "",
@@ -93,6 +98,65 @@ class Form extends React.Component {
     }
   };
 
+  setUpEditExpense = (id) => {
+    console.log(id);
+    const expense = this.state.expenseArray.find(
+      (expense) => expense.id === id
+    );
+
+    this.setState({
+      isEditing: true,
+      value: expense.value,
+      previousAmount: expense.amount,
+      amount: expense.amount,
+      type: expense.type,
+      editId: id
+    });
+  };
+
+  editExpense = (event) => {
+    event.preventDefault();
+    const tempArray = this.state.expenseArray;
+    const index = this.state.expenseArray.findIndex(
+      (expense) => expense.id === this.state.editId
+    );
+
+    tempArray[index] = {
+      ...tempArray[index],
+      value: this.state.value,
+      amount: this.state.amount,
+      type: this.state.type
+    };
+    if (this.state.type === "credit") {
+      this.setState({
+        taskArray: tempArray,
+        isEditing: false,
+        balance:
+          parseFloat(this.state.balance) -
+          parseFloat(this.state.previousAmount) +
+          parseFloat(this.state.amount),
+        value: "",
+        amount: "",
+        type: "",
+        editId: ""
+      });
+    }
+    if (this.state.type === "debit") {
+      this.setState({
+        taskArray: tempArray,
+        isEditing: false,
+        balance:
+          parseFloat(this.state.balance) +
+          parseFloat(this.state.previousAmount) -
+          parseFloat(this.state.amount),
+        value: "",
+        amount: "",
+        type: "",
+        editId: ""
+      });
+    }
+  };
+
   render() {
     console.log(this.state);
     return (
@@ -109,13 +173,16 @@ class Form extends React.Component {
           ></input>
           <button type="submit">Click me</button>
         </form>
-        <form onSubmit={this.saveExpense}>
+        <form
+          onSubmit={this.state.isEditing ? this.editExpense : this.saveExpense}
+        >
           <input
             type="number"
             min="0"
             placeholder="enter amount"
             required
             name="amount"
+            value={this.state.amount}
             onChange={this.changeValue}
           ></input>
           <br />
@@ -134,7 +201,32 @@ class Form extends React.Component {
               <option value="others">Others</option>
             </select>
           </label>
-          <label>
+          {this.state.isEditing ? null : (
+            <div>
+              {" "}
+              <label>
+                <input
+                  type="radio"
+                  value="credit"
+                  name="type"
+                  onChange={this.changeValue}
+                  //checked={this.state.name === "credit"}
+                />
+                Credit
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="debit"
+                  name="type"
+                  onChange={this.changeValue}
+                  //checked={this.state.name === "debit"}
+                />
+                Debit
+              </label>
+            </div>
+          )}
+          {/* <label>
             <input
               type="radio"
               value="credit"
@@ -153,12 +245,15 @@ class Form extends React.Component {
               //checked={this.state.name === "debit"}
             />
             Debit
-          </label>
+          </label> */}
+
           <button type="submit">Click me</button>
         </form>
         <Details
           expenseArray={this.state.expenseArray}
+          balance={this.state.balance}
           deleteExpense={this.deleteExpense}
+          editExpense={this.setUpEditExpense}
         ></Details>
       </div>
     );

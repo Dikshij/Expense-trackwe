@@ -11,6 +11,7 @@ class Details extends React.Component {
             <th>Amount</th>
             <th>Name</th>
             <th>Balance</th>
+            <th>Credit/Debit</th>
           </thead>
           <tbody>
             {this.props.expenseArray.map((expense) => {
@@ -19,7 +20,8 @@ class Details extends React.Component {
                   <td>{expense.id}</td>
                   <td>{expense.amount}</td>
                   <td>{expense.value}</td>
-                  <td>{expense.Balance}</td>
+                  <td>{expense.balance}</td>
+                  <td>{expense.type}</td>
                 </tr>
               );
             })}

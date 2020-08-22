@@ -7,7 +7,8 @@ class Form extends React.Component {
     balance: 0,
     value: "",
     amount: 0,
-    expenseArray: []
+    expenseArray: [],
+    type: ""
   };
 
   changeValue = (event) => {
@@ -25,19 +26,42 @@ class Form extends React.Component {
 
   saveExpense = (event) => {
     event.preventDefault();
-    this.setState({
-      id: this.state.id + 1,
-      expenseArray: [
-        ...this.state.expenseArray,
-        {
-          id: this.state.id + 1,
-          value: this.state.value,
-          amount: this.state.amount
-        }
-      ],
-      value: "",
-      amount: ""
-    });
+    if (this.state.type === "credit")
+      this.setState({
+        id: this.state.id + 1,
+        expenseArray: [
+          ...this.state.expenseArray,
+          {
+            id: this.state.id + 1,
+            value: this.state.value,
+            amount: this.state.amount,
+            type: this.state.type,
+            balance:
+              parseFloat(this.state.balance) + parseFloat(this.state.amount)
+          }
+        ],
+        value: "",
+        amount: "",
+        type: ""
+      });
+    else
+      this.setState({
+        id: this.state.id + 1,
+        expenseArray: [
+          ...this.state.expenseArray,
+          {
+            id: this.state.id + 1,
+            value: this.state.value,
+            amount: this.state.amount,
+            type: this.state.type,
+            balance:
+              parseFloat(this.state.balance) - parseFloat(this.state.amount)
+          }
+        ],
+        value: "",
+        amount: "",
+        type: ""
+      });
   };
 
   render() {
@@ -80,6 +104,26 @@ class Form extends React.Component {
               <option value="rent">Rent</option>
               <option value="others">Others</option>
             </select>
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="credit"
+              name="type"
+              onChange={this.changeValue}
+              //checked={this.state.name === "credit"}
+            />
+            Credit
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="debit"
+              name="type"
+              onChange={this.changeValue}
+              //checked={this.state.name === "debit"}
+            />
+            Debit
           </label>
           <button type="submit">Click me</button>
         </form>

@@ -1,4 +1,5 @@
 import React from "react";
+import Details from "./Details";
 
 class Form extends React.Component {
   state = {
@@ -29,7 +30,7 @@ class Form extends React.Component {
       expenseArray: [
         ...this.state.expenseArray,
         {
-          id: this.state.id,
+          id: this.state.id + 1,
           value: this.state.value,
           amount: this.state.amount
         }
@@ -82,6 +83,7 @@ class Form extends React.Component {
           </label>
           <button type="submit">Click me</button>
         </form>
+        <Details expenseArray={this.state.expenseArray}></Details>
       </div>
     );
   }

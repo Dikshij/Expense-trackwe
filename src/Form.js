@@ -26,9 +26,10 @@ class Form extends React.Component {
 
   saveExpense = (event) => {
     event.preventDefault();
-    if (this.state.type === "credit")
+    if (this.state.type === "credit") {
       this.setState({
         id: this.state.id + 1,
+        balance: parseFloat(this.state.balance) + parseFloat(this.state.amount),
         expenseArray: [
           ...this.state.expenseArray,
           {
@@ -40,13 +41,15 @@ class Form extends React.Component {
               parseFloat(this.state.balance) + parseFloat(this.state.amount)
           }
         ],
+
         value: "",
         amount: "",
         type: ""
       });
-    else
+    } else {
       this.setState({
         id: this.state.id + 1,
+        balance: parseFloat(this.state.balance) + parseFloat(this.state.amount),
         expenseArray: [
           ...this.state.expenseArray,
           {
@@ -62,6 +65,7 @@ class Form extends React.Component {
         amount: "",
         type: ""
       });
+    }
   };
 
   deleteExpense = (id) => {
@@ -75,7 +79,7 @@ class Form extends React.Component {
       );
       this.setState({
         expenseArray: expenseArrayTemp,
-        balace: parseFloat(this.state.balance) - parseFloat(exp)
+        balance: parseFloat(this.state.balance) - parseFloat(exp)
       });
     } else {
       var expi = expense.amount;
@@ -84,7 +88,7 @@ class Form extends React.Component {
       );
       this.setState({
         expenseArray: expenseArrayTemp,
-        balace: parseFloat(this.state.balance) + parseFloat(expi)
+        balance: parseFloat(this.state.balance) + parseFloat(expi)
       });
     }
   };

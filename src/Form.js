@@ -5,10 +5,10 @@ class Form extends React.Component {
   state = {
     id: 0,
     balance: 0,
-    value: "",
+    value: "Movie",
     amount: 0,
     expenseArray: [],
-    type: "",
+    type: "credit",
     isEditing: false,
     editId: "",
     previousAmount: ""
@@ -45,9 +45,9 @@ class Form extends React.Component {
           }
         ],
 
-        value: "",
-        amount: "",
-        type: "",
+        value: "Movie",
+        amount: 0,
+        type: "credit",
         isEditing: false,
         editId: ""
       });
@@ -66,9 +66,11 @@ class Form extends React.Component {
             //   parseFloat(this.state.balance) - parseFloat(this.state.amount)
           }
         ],
-        value: "",
-        amount: "",
-        type: ""
+        value: "Movie",
+        amount: 0,
+        type: "credit",
+        isEditing: false,
+        editId: ""
       });
     }
   };
@@ -135,9 +137,9 @@ class Form extends React.Component {
           parseFloat(this.state.balance) -
           parseFloat(this.state.previousAmount) +
           parseFloat(this.state.amount),
-        value: "",
-        amount: "",
-        type: "",
+        value: "Movie",
+        amount: 0,
+        type: "credit",
         editId: ""
       });
     }
@@ -149,9 +151,9 @@ class Form extends React.Component {
           parseFloat(this.state.balance) +
           parseFloat(this.state.previousAmount) -
           parseFloat(this.state.amount),
-        value: "",
-        amount: "",
-        type: "",
+        value: "Movie",
+        amount: 0,
+        type: "credit",
         editId: ""
       });
     }

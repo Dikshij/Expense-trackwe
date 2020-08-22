@@ -22,6 +22,14 @@ class Details extends React.Component {
                   <td>{expense.value}</td>
                   <td>{expense.balance}</td>
                   <td>{expense.type}</td>
+                  <td>
+                    <button
+                      onClick={() => this.props.deleteExpense(expense.id)}
+                    >
+                      Delete
+                    </button>
+                    <button>Edit</button>
+                  </td>
                 </tr>
               );
             })}

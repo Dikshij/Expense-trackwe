@@ -64,6 +64,31 @@ class Form extends React.Component {
       });
   };
 
+  deleteExpense = (id) => {
+    const expense = this.state.expenseArray.find(
+      (expense) => expense.id === id
+    );
+    if (expense.type === "credit") {
+      var exp = expense.amount;
+      const expenseArrayTemp = this.state.expenseArray.filter(
+        (expense) => expense.id !== id
+      );
+      this.setState({
+        expenseArray: expenseArrayTemp,
+        balace: parseFloat(this.state.balance) - parseFloat(exp)
+      });
+    } else {
+      var expi = expense.amount;
+      const expenseArrayTemp = this.state.expenseArray.filter(
+        (expense) => expense.id !== id
+      );
+      this.setState({
+        expenseArray: expenseArrayTemp,
+        balace: parseFloat(this.state.balance) + parseFloat(expi)
+      });
+    }
+  };
+
   render() {
     console.log(this.state);
     return (
@@ -127,7 +152,10 @@ class Form extends React.Component {
           </label>
           <button type="submit">Click me</button>
         </form>
-        <Details expenseArray={this.state.expenseArray}></Details>
+        <Details
+          expenseArray={this.state.expenseArray}
+          deleteExpense={this.deleteExpense}
+        ></Details>
       </div>
     );
   }
